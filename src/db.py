@@ -13,7 +13,6 @@ class StrategyStatus(Enum):
     CLOSED = auto()
     CANCELLED = auto()
 
-
 @dataclass
 class Strategy:
     id: UUID
