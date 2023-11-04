@@ -28,8 +28,8 @@ class Strategy:
 class Contribution:
     id: UUID
     created_at: datetime
-    strategy_id: UUID
-    user_id: UUID
+    strategy_id: str
+    user_id: int
     value: int
 
 
@@ -115,6 +115,23 @@ class DatabaseController:
         )
         self.con.commit()
 
+    def change_contribution_value(self, new_value, user_id, strategy_id) -> None:
+        self.cur.execute(
+            "SELECT value FROM contributions WHERE strategy_id=? AND user_id=?", (strategy_id, user_id,)
+        )
+        value = self.cur.fetchone()
+        self.cur.execute(
+            """
+            UPDATE "contributions" SET value=? WHERE user_id=? AND strategy_id=?
+            """,
+            (
+                int(new_value[0]) + value[0],
+                user_id, 
+                strategy_id,
+            ),
+        )
+        self.con.commit()
+
     def add_trade(self, trade: Trade) -> None:
         self.cur.execute(
             """
@@ -147,6 +164,20 @@ class DatabaseController:
                 )
             )
         return strategies
+    
+    def get_strategy_status(self, strategy_discord_id: int) -> StrategyStatus:
+        self.cur.execute(
+            "SELECT status FROM strategies WHERE strategy_discord_id=?", (strategy_discord_id,)
+        )
+        status = self.cur.fetchone()
+        return status
+
+    def get_user_positon_value(self, strategy_id: int, user_id: str) -> int:
+        self.cur.execute(
+            "SELECT value FROM contributions WHERE strategy_id=? AND user_id=?", (strategy_id, user_id,)
+        )
+        value = self.cur.fetchone()
+        return value
 
     def get_strategy_by_discord_id(self, discord_id: int) -> Strategy:
         self.cur.execute(
