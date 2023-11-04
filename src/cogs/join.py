@@ -15,24 +15,25 @@ class useStrategy(discord.ui.View):
 
     @discord.ui.button(label="Submit", style=discord.ButtonStyle.success)
     async def join(self, interaction, button):
-        print(interaction.user.id)
-        print(self.user.id)
         if interaction.user.id == self.user.id:
           user=interaction.user
           strategyName = interaction.message.channel.name
           strategyId = interaction.message.channel.id
           fetched_positon_value = self.client.controller.get_user_positon_value(interaction.channel_id, interaction.user.id)
-          if fetched_positon_value:
-             self.client.controller.change_contribution_value(fetched_positon_value, interaction.user.id, interaction.channel_id,)
-          else:
-            contribution = Contribution(
-            uuid4(), datetime.now(), interaction.channel_id, interaction.user.id, int(self.amount),
-            )
-            self.client.controller.add_contribution(contribution)
+          fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
+          if fetched_status[0] == "INITIALIZED":
+            if fetched_positon_value:
+              self.client.controller.change_contribution_value(fetched_positon_value, interaction.user.id, interaction.channel_id,)
+            else:
+              contribution = Contribution(
+              uuid4(), datetime.now(), interaction.channel_id, interaction.user.id, int(self.amount),
+              )
+              self.client.controller.add_contribution(contribution)
 
-          await interaction.response.send_message("Submited")
-          await user.send(f"Your position is open now! \nuser:{user} \nname: {strategyName} \nid: {strategyId} \nvalue: {self.amount}")
-            
+            await interaction.response.send_message("Submited")
+            await user.send(f"Your position is open now! \nuser:{user} \nname: {strategyName} \nid: {strategyId} \nvalue: {self.amount}")
+          else:
+             await interaction.response.send_message("You can't join strategy now. It's cancelled or already started.")
 
 class Join(commands.Cog):
   def __init__(self, client: Client):

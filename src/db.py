@@ -131,6 +131,18 @@ class DatabaseController:
             ),
         )
         self.con.commit()
+    
+    def change_status(self, strategy_discord_id, new_status) -> None:
+        self.cur.execute(
+            """
+            UPDATE "strategies" SET status=? WHERE strategy_discord_id=?
+            """,
+            (
+                new_status.name,
+                strategy_discord_id,
+            ),
+        )
+        self.con.commit()
 
     def add_trade(self, trade: Trade) -> None:
         self.cur.execute(
