@@ -14,9 +14,7 @@ class Client(commands.Bot):
         print(" Logged in as " + self.user.name)
         synced = await self.tree.sync()
         print(" Slash CMDs Synced " + str(len(synced)) + " Commands")
-        fetched_strategy = await self.example_usage()
-        print(f"fetched strategy: {fetched_strategy}")
-
+    
     async def setup_hook(self):
         for ext in self.cogslist:
             await self.load_extension("cogs." + ext)
