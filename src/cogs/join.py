@@ -8,10 +8,10 @@ from datetime import datetime
 
 class useStrategy(discord.ui.View):
     def __init__(self, amount, user, client):
-        super().__init__(timeout=None)
-        self.amount = amount
-        self.user = user
-        self.client = client
+      super().__init__(timeout=None)
+      self.amount = amount
+      self.user = user
+      self.client = client
 
     @discord.ui.button(label="Submit", style=discord.ButtonStyle.success)
     async def join(self, interaction, button):

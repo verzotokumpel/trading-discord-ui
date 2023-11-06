@@ -18,8 +18,6 @@ class Init(commands.Cog):
           uuid4(), datetime.now(), interaction.channel_id, interaction.user.id, currency_ticker, int(amount), StrategyStatus.INITIALIZED
         )
         self.client.controller.add_strategy(strategy)
-        # fetched_strategy = self.client.controller.get_strategy_by_discord_id(interaction.channel_id)
-        # print(fetched_strategy)
         embed=discord.Embed(
           title=f"{interaction.channel}",
           description="Status: waiting for owner to run strategy.",
@@ -29,6 +27,8 @@ class Init(commands.Cog):
         embed.add_field(name="Owner:", value=f"{self.client.get_user(interaction.user.id)}", inline=False)
         embed.add_field(name="Owner position: ", value=f"{amount}$", inline=False)
         await interaction.response.send_message(embed=embed)
+        message = await interaction.original_response()
+        await message.pin()
       else: 
         embed=discord.Embed(
           title=f"{interaction.channel}",

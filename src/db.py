@@ -78,6 +78,11 @@ class DatabaseController:
                     "buy_volume" INTEGER NOT NULL,
                     FOREIGN KEY ("strategy_id") REFERENCES "strategies" ("id")
                 );
+
+                CREATE TABLE IF NOT EXISTS "follow_profit" (
+                    "message_id" INT PRIMARY_KEY NOT NULL,
+                    "strategy_name" TEXT NOT NULL
+                );
             """
         )
 
@@ -96,6 +101,30 @@ class DatabaseController:
                 strategy.op_initial_contribution,
                 strategy.status.name,
             ),
+        )
+        self.con.commit()
+    
+    def start_follow_profit(self, message_id, strategy_name) -> None:
+        self.cur.execute(
+            """
+            INSERT INTO "follow_profit" (message_id, strategy_name) 
+            VALUES (?, ?)
+            """,
+            (
+                message_id,
+                strategy_name
+            ),
+        )
+        self.con.commit()
+    
+    def stop_follow_profit(self, strategy_name) -> None:
+        self.cur.execute(
+            """
+            DELETE FROM "follow_profit" WHERE strategy_name = ?
+            """,
+            (
+                strategy_name,
+            )
         )
         self.con.commit()
 
