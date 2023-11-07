@@ -10,13 +10,7 @@ class Init(commands.Cog):
   def __init__(self, client: Client):
     self.client = client
 
-  def is_owner(self, interaction: discord.Interaction):
-    print(interaction.message.author)
-    print(interaction.channel.owner)
-    return interaction.message.author == interaction.channel.owner
-
   @app_commands.command(name="init", description="If you are owner use it to initialize strategy")
-  # @app_commands.check(is_owner)
   async def init(self, interaction: discord.Interaction, amount: str, currency_ticker: str):
     if amount.isnumeric() and int(amount) > 0 and amount.lstrip('0') == amount:
       if self.client.controller.get_strategy_by_discord_id(interaction.channel_id) is None:

@@ -23,7 +23,7 @@ class useStrategy(discord.ui.View):
           fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
           if fetched_status[0] == "INITIALIZED":
             if fetched_positon_value:
-              self.client.controller.change_contribution_value(fetched_positon_value, interaction.user.id, interaction.channel_id,)
+              self.client.controller.change_contribution_value(self.amount, interaction.user.id, interaction.channel_id,)
             else:
               contribution = Contribution(
               uuid4(), datetime.now(), interaction.channel_id, interaction.user.id, int(self.amount),

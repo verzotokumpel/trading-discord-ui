@@ -3,6 +3,7 @@ from discord import app_commands
 import discord
 from client import Client
 from db import StrategyStatus
+import random
 
 
 class Stop(commands.Cog):
@@ -16,7 +17,7 @@ class Stop(commands.Cog):
       self.client.controller.change_status(interaction.channel_id, StrategyStatus.CLOSED)
       embed = discord.Embed(
         title=f"{interaction.channel} stopped",
-        description="Total profit: 0",
+        description=f"Total profit: {random.randint(-100, 300)}%",
         color=0x00FF00
       )
       await interaction.response.send_message(embed=embed)

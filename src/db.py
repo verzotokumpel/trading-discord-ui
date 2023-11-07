@@ -162,7 +162,7 @@ class DatabaseController:
             UPDATE "contributions" SET value=? WHERE user_id=? AND strategy_id=?
             """,
             (
-                int(new_value[0]) + value[0],
+                int(new_value) + value[0],
                 user_id, 
                 strategy_id,
             ),
