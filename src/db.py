@@ -85,7 +85,7 @@ class DatabaseController:
                     FOREIGN KEY ("strategy_id") REFERENCES "strategies" ("id")
                 );
 
-                CREATE TABLE IF NOT EXISTS "follow_profit" (
+                CREATE TABLE IF NOT EXISTS "messages_to_follow_profit" (
                     "message_id" TEXT PRIMARY_KEY NOT NULL,
                     "strategy_name" TEXT NOT NULL,
                     "channel_id" INTEGER NOT NULL
@@ -111,10 +111,10 @@ class DatabaseController:
         )
         self.con.commit()
     
-    def start_follow_profit(self, message_id, strategy_name, channel_id) -> None:
+    def add_message_to_follow_profit(self, message_id, strategy_name, channel_id) -> None:
         self.cur.execute(
             """
-            INSERT INTO "follow_profit" (message_id, strategy_name, channel_id) 
+            INSERT INTO "messages_to_follow_profit" (message_id, strategy_name, channel_id) 
             VALUES (?, ?, ?)
             """,
             (
@@ -125,10 +125,10 @@ class DatabaseController:
         )
         self.con.commit()
     
-    def stop_follow_profit(self, strategy_name) -> None:
+    def remove_message_to_follow_profit(self, strategy_name) -> None:
         self.cur.execute(
             """
-            DELETE FROM "follow_profit" WHERE strategy_name = ?
+            DELETE FROM "messages_to_follow_profit" WHERE strategy_name = ?
             """,
             (
                 strategy_name,
@@ -221,9 +221,9 @@ class DatabaseController:
         status = self.cur.fetchone()
         return status
     
-    def get_messages_to_edit(self):
+    def get_messages_to_follow_profit(self):
         self.cur.execute(
-            "SELECT * FROM follow_profit"
+            "SELECT * FROM messages_to_follow_profit"
         )
         strategies = []
         for row in self.cur.fetchall():

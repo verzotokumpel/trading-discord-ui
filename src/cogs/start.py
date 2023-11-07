@@ -22,7 +22,7 @@ class Start(commands.Cog):
       await interaction.response.send_message(embed=embed)
       message = await interaction.original_response()
       await message.pin()
-      self.client.controller.start_follow_profit(message.id, str(interaction.channel), interaction.channel_id)
+      self.client.controller.add_message_to_follow_profit(message.id, str(interaction.channel), interaction.channel_id)
     else:
       embed = discord.Embed(
         title="ERROR",

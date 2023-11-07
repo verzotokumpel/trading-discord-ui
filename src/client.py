@@ -12,7 +12,7 @@ class Client(commands.Bot):
 
     @tasks.loop(seconds=10)
     async def follow_profits(self):
-        messages = self.controller.get_messages_to_edit()
+        messages = self.controller.get_messages_to_follow_profit()
         for message in messages:
             profit = random.randint(-100, 300)
             if profit >= 0:

@@ -22,7 +22,7 @@ class Stop(commands.Cog):
       await interaction.response.send_message(embed=embed)
       message = await interaction.original_response()
       await message.pin()
-      self.client.controller.stop_follow_profit(str(interaction.channel))
+      self.client.controller.remove_message_to_follow_profit(str(interaction.channel))
     else:
       embed = discord.Embed(
         title="ERROR",
