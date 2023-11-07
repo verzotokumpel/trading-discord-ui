@@ -1,7 +1,5 @@
 import os
-from db import DatabaseController, Strategy, StrategyStatus
-from uuid import uuid4
-from datetime import datetime
+from db import DatabaseController
 from client import Client
 from dotenv import load_dotenv
 

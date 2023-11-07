@@ -41,6 +41,12 @@ class Trade:
     sell_volume: int
     buy_volume: int
 
+@dataclass
+class ProfitMessage:
+    message_id: str
+    strategy_name: str
+    channel_id: int
+
 
 class DatabaseController:
     def __init__(self) -> None:
@@ -80,8 +86,9 @@ class DatabaseController:
                 );
 
                 CREATE TABLE IF NOT EXISTS "follow_profit" (
-                    "message_id" INT PRIMARY_KEY NOT NULL,
-                    "strategy_name" TEXT NOT NULL
+                    "message_id" TEXT PRIMARY_KEY NOT NULL,
+                    "strategy_name" TEXT NOT NULL,
+                    "channel_id" INTEGER NOT NULL
                 );
             """
         )
@@ -104,16 +111,17 @@ class DatabaseController:
         )
         self.con.commit()
     
-    def start_follow_profit(self, message_id, strategy_name) -> None:
+    def start_follow_profit(self, message_id, strategy_name, channel_id) -> None:
         self.cur.execute(
             """
-            INSERT INTO "follow_profit" (message_id, strategy_name) 
-            VALUES (?, ?)
+            INSERT INTO "follow_profit" (message_id, strategy_name, channel_id) 
+            VALUES (?, ?, ?)
             """,
             (
                 message_id,
-                strategy_name
-            ),
+                strategy_name,
+                channel_id,
+            )
         )
         self.con.commit()
     
@@ -212,6 +220,21 @@ class DatabaseController:
         )
         status = self.cur.fetchone()
         return status
+    
+    def get_messages_to_edit(self):
+        self.cur.execute(
+            "SELECT * FROM follow_profit"
+        )
+        strategies = []
+        for row in self.cur.fetchall():
+            strategies.append(
+                ProfitMessage(
+                    message_id = row[0],
+                    strategy_name = row[1],
+                    channel_id = row[2]
+                )
+            )
+        return strategies
 
     def get_user_positon_value(self, strategy_id: int, user_id: str) -> int:
         self.cur.execute(
