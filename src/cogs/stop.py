@@ -4,6 +4,7 @@ import discord
 from client import Client
 from db import StrategyStatus
 import random
+from decorators.is_owner import is_owner
 
 
 class Stop(commands.Cog):
@@ -11,6 +12,7 @@ class Stop(commands.Cog):
     self.client = client
 
   @app_commands.command(name="stop", description="If you are owner use it to stop strategy")
+  @app_commands.check(is_owner)
   async def stop(self, interaction: discord.Interaction, method: str):
     fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
     if fetched_status[0] == "OPENED":

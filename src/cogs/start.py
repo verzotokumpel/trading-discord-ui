@@ -3,6 +3,7 @@ from discord import app_commands
 import discord
 from client import Client
 from db import StrategyStatus
+from decorators.is_owner import is_owner
 
 
 class Start(commands.Cog):
@@ -10,6 +11,7 @@ class Start(commands.Cog):
     self.client = client
 
   @app_commands.command(name="start", description="If you are owner use it to start strategy")
+  @app_commands.check(is_owner)
   async def start(self, interaction: discord.Interaction, method: str):
     fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
     if fetched_status[0] == "INITIALIZED":
