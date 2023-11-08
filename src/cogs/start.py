@@ -19,10 +19,11 @@ class Start(commands.Cog):
         description="Profit: 0",
         color=0x00FF00
       )
+      embed.add_field(name="Command used by owner:", value=f"{method}", inline=False)
       await interaction.response.send_message(embed=embed)
       message = await interaction.original_response()
       await message.pin()
-      self.client.controller.add_message_to_follow_profit(message.id, str(interaction.channel), interaction.channel_id)
+      self.client.controller.add_message_to_follow_profit(message.id, str(interaction.channel), interaction.channel_id, method)
     else:
       embed = discord.Embed(
         title="ERROR",

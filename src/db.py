@@ -46,6 +46,7 @@ class ProfitMessage:
     message_id: str
     strategy_name: str
     channel_id: int
+    method: str
 
 
 class DatabaseController:
@@ -88,7 +89,8 @@ class DatabaseController:
                 CREATE TABLE IF NOT EXISTS "messages_to_follow_profit" (
                     "message_id" TEXT PRIMARY_KEY NOT NULL,
                     "strategy_name" TEXT NOT NULL,
-                    "channel_id" INTEGER NOT NULL
+                    "channel_id" INTEGER NOT NULL,
+                    "method" TEXT NOT NULL
                 );
             """
         )
@@ -111,16 +113,17 @@ class DatabaseController:
         )
         self.con.commit()
     
-    def add_message_to_follow_profit(self, message_id, strategy_name, channel_id) -> None:
+    def add_message_to_follow_profit(self, message_id, strategy_name, channel_id, method) -> None:
         self.cur.execute(
             """
-            INSERT INTO "messages_to_follow_profit" (message_id, strategy_name, channel_id) 
-            VALUES (?, ?, ?)
+            INSERT INTO "messages_to_follow_profit" (message_id, strategy_name, channel_id, method) 
+            VALUES (?, ?, ?, ?)
             """,
             (
                 message_id,
                 strategy_name,
                 channel_id,
+                method,
             )
         )
         self.con.commit()
@@ -231,7 +234,8 @@ class DatabaseController:
                 ProfitMessage(
                     message_id = row[0],
                     strategy_name = row[1],
-                    channel_id = row[2]
+                    channel_id = row[2],
+                    method = row[3]
                 )
             )
         return strategies

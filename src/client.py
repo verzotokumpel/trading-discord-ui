@@ -16,17 +16,19 @@ class Client(commands.Bot):
         for message in messages:
             profit = random.randint(-100, 300)
             if profit >= 0:
-                    embed = discord.Embed(
-                    title=f"{message.strategy_name}",
-                    description=f"Profit: {profit}%",
-                    color=0x00FF00
+                embed = discord.Embed(
+                title=f"{message.strategy_name}",
+                description=f"Profit: {profit}%",
+                color=0x00FF00
                 )
+                embed.add_field(name="Command used by owner:", value=f"{message.method}", inline=False)
             else:
                 embed = discord.Embed(
-                    title=f"{message.strategy_name}",
-                    description=f"Profit: {profit}%",
-                    color=0xFF0000
+                title=f"{message.strategy_name}",
+                description=f"Profit: {profit}%",
+                color=0xFF0000
                 )
+                embed.add_field(name="Command used by owner:", value=f"{message.method}", inline=False)
             message_to_edit = await self.get_channel(message.channel_id).fetch_message(message.message_id)
             await message_to_edit.edit(embed=embed)
         

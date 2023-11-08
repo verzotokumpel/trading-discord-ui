@@ -43,7 +43,6 @@ class Join(commands.Cog):
   async def join(self, interaction: discord.Interaction, amount: str):
     if amount.isnumeric() and int(amount) > 0 and amount.lstrip('0') == amount: 
       fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
-      print(fetched_status)
       if fetched_status is None or fetched_status[0]!= "INITIALIZED": 
         embed = discord.Embed(
         title="Error",
@@ -53,7 +52,6 @@ class Join(commands.Cog):
         await interaction.response.send_message(embed=embed)     
       else:  
           fetched_positon_value = self.client.controller.get_user_positon_value(interaction.channel_id, interaction.user.id)
-          print(fetched_positon_value)
           embed = discord.Embed(
               title="Your Position Details",
               description="Check if all is correct!",

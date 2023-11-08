@@ -23,7 +23,7 @@ class Init(commands.Cog):
           description="Status: waiting for owner to run strategy.",
           color=0xe67e22   
           )
-        embed.add_field(name="Time to join now", value="Use !join [value]", inline=False)
+        embed.add_field(name="Time to join now", value="Use /join [amount]", inline=False)
         embed.add_field(name="Owner:", value=f"{self.client.get_user(interaction.user.id)}", inline=False)
         embed.add_field(name="Owner position: ", value=f"{amount}$", inline=False)
         await interaction.response.send_message(embed=embed)

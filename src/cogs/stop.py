@@ -20,6 +20,7 @@ class Stop(commands.Cog):
         description=f"Total profit: {random.randint(-100, 300)}%",
         color=0x00FF00
       )
+      embed.add_field(name="Command used by owner:", value=f"{method}", inline=False)
       await interaction.response.send_message(embed=embed)
       message = await interaction.original_response()
       await message.pin()
