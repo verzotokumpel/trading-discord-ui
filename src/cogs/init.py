@@ -5,13 +5,18 @@ from db import Strategy, StrategyStatus
 from uuid import uuid4
 from datetime import datetime
 from client import Client
+from decorators.is_owner import is_owner
 
 class Init(commands.Cog):
   def __init__(self, client: Client):
     self.client = client
-
+  
   @app_commands.command(name="init", description="If you are owner use it to initialize strategy")
+  @app_commands.check(is_owner)
   async def init(self, interaction: discord.Interaction, amount: str, currency_ticker: str):
+    # print(interaction.channel.owner.id)
+    # print(interaction.user.id)
+    # print(dir(interaction.channel.owner))
     if amount.isnumeric() and int(amount) > 0 and amount.lstrip('0') == amount:
       if self.client.controller.get_strategy_by_discord_id(interaction.channel_id) is None:
         strategy = Strategy(

@@ -1,7 +1,5 @@
+import discord
 
-def is_owner():
-    def predicate(ctx):
-        owner = ctx.channel.owner_id
-        if owner == ctx.author.id:
-            return True
-        return predicate
+def is_owner(interaction: discord.Interaction) -> bool:
+    interaction.response.send_message("Hello")
+    return interaction.channel.owner.id == interaction.user.id
