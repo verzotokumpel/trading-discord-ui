@@ -15,7 +15,7 @@ class Stop(commands.Cog):
   @app_commands.check(is_owner)
   async def stop(self, interaction: discord.Interaction, method: str):
     fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
-    if fetched_status[0] == "OPENED":
+    if fetched_status == StrategyStatus.OPENED:
       self.client.controller.change_status(interaction.channel_id, StrategyStatus.CLOSED)
       embed = discord.Embed(
         title=f"{interaction.channel} stopped",

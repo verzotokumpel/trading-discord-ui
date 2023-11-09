@@ -13,7 +13,7 @@ class Cancel(commands.Cog):
   @app_commands.check(is_owner)
   async def cancel(self, interaction: discord.Interaction):
     fetched_status = self.client.controller.get_strategy_status(interaction.channel_id)
-    if fetched_status[0] == "INITIALIZED": 
+    if fetched_status == StrategyStatus.INITIALIZED: 
       embed=discord.Embed(
         title=f"{interaction.channel}",
         description="Status: CANCELED",

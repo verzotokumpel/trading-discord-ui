@@ -222,7 +222,7 @@ class DatabaseController:
             "SELECT status FROM strategies WHERE strategy_discord_id=?", (strategy_discord_id,)
         )
         status = self.cur.fetchone()
-        return status
+        return StrategyStatus[status[0]]
     
     def get_messages_to_follow_profit(self):
         self.cur.execute(
